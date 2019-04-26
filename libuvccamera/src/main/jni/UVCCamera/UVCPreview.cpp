@@ -707,7 +707,12 @@ void UVCPreview::addCaptureFrame(uvc_frame_t *frame) {
 		}
 		captureQueu = frame;
 		pthread_cond_broadcast(&capture_sync);
-	}
+	} else {
+        /*
+        * https://github.com/saki4510t/UVCCamera/issues/259#issuecomment-341611634
+        */
+        recycle_frame(frame);
+    }
 	pthread_mutex_unlock(&capture_mutex);
 }
 
@@ -865,7 +870,12 @@ void UVCPreview::do_capture_callback(JNIEnv *env, uvc_frame_t *frame) {
 				}
 			}
 			jobject buf = env->NewDirectByteBuffer(callback_frame->data, callbackPixelBytes);
-			env->CallVoidMethod(mFrameCallbackObj, iframecallback_fields.onFrame, buf);
+			/*
+			* Fix: https://github.com/saki4510t/UVCCamera/issues/244#issuecomment-397540550
+			*/
+			if(iframecallback_fields.onFrame) {
+			    env->CallVoidMethod(mFrameCallbackObj, iframecallback_fields.onFrame, buf);
+			}
 			env->ExceptionClear();
 			env->DeleteLocalRef(buf);
 		}

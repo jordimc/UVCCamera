@@ -1,3 +1,14 @@
+Differences from original repo 
+=========
+
+As the original repo seems to be discontinued, I have forked and fixed two bugs I was dealing while using the UVCCamera lib.
+
+The bugs fixed are:
+- JNI detected error in application: jmethodID was NULL: [GitHub Issue](https://github.com/saki4510t/UVCCamera/issues/244#issuecomment-397540550)
+- Memory leak: [GitHub Issue](https://github.com/saki4510t/UVCCamera/issues/259#issuecomment-341611634)
+
+Many thanks to [Saki4510t](https://github.com/saki4510t/) for the incredible work!
+
 UVCCamera
 =========
 
